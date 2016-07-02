@@ -238,8 +238,8 @@ public class FrmPrikazTima extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtnOKActionPerformed
 
     private void jtblTimoviMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblTimoviMouseClicked
-        jbtnIzmeni.setEnabled(true);
-        jbtnObrisi.setEnabled(true);
+        jbtnIzmeni.setEnabled(jtblTimovi.getSelectedRow() > -1);
+        jbtnObrisi.setEnabled(jtblTimovi.getSelectedRow() > -1);
     }//GEN-LAST:event_jtblTimoviMouseClicked
 
     private void jtxtKriterijumPretrageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtKriterijumPretrageKeyPressed

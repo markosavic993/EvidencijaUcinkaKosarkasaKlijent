@@ -285,7 +285,7 @@ public class FrmDodajUcinak extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
 
     private void jtblUcinciMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblUcinciMouseClicked
-        jbtnObrišiJedan.setEnabled(true);
+        jbtnObrišiJedan.setEnabled(jtblUcinci.getSelectedRow() > -1);
     }//GEN-LAST:event_jtblUcinciMouseClicked
 
     private void jbtnPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPlusActionPerformed

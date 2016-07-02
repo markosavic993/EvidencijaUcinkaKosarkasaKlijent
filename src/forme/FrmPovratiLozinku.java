@@ -120,7 +120,12 @@ public class FrmPovratiLozinku extends javax.swing.JDialog {
         if (validanUnos(ki, mail)) {
             TransferObjekatZahtev toZahtev = new TransferObjekatZahtev();
             toZahtev.setOperacija(Konstante.VRATI_SVE_KORISNIKE);
-            KlijentKomunikacija.getInstance().posaljiZahtev(toZahtev);
+            try {
+                KlijentKomunikacija.getInstance().posaljiZahtev(toZahtev);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Server nije pokrenut, pokušajte kasnije!", "Greška", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             TransferObjekatOdgovor toOdgovor = null;
             try {
                 toOdgovor = KlijentKomunikacija.getInstance().primiOdgovor();

@@ -32,7 +32,7 @@ public class KlijentKomunikacija {
             try {
                 instance = new KlijentKomunikacija();
             } catch (IOException ex) {
-                Logger.getLogger(KlijentKomunikacija.class.getName()).log(Level.SEVERE, null, ex);
+                
             }
         }
         return instance;

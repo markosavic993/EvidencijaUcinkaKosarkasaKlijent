@@ -6,6 +6,7 @@
 package forme;
 
 import com.sun.xml.internal.ws.api.message.Message;
+import domen.Korisnik;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -252,7 +253,14 @@ public class FrmLogovanje extends javax.swing.JFrame {
         TransferObjekatZahtev toZahtev = new TransferObjekatZahtev();
         toZahtev.setOperacija(Konstante.AUTORIZUJ_KORISNIKA);
         toZahtev.setParametar(username + "@" + password);
-        KlijentKomunikacija.getInstance().posaljiZahtev(toZahtev);
+        try {
+            KlijentKomunikacija.getInstance().posaljiZahtev(toZahtev);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Server nije pokrenut, pokušajte kasnije!", "Greška", JOptionPane.WARNING_MESSAGE);
+            isprazniPolja();
+            return;
+        }
+       
         TransferObjekatOdgovor toOdgovor = KlijentKomunikacija.getInstance().primiOdgovor();
         if (toOdgovor.getIzuzetak() != null) {
             try {
@@ -261,8 +269,9 @@ public class FrmLogovanje extends javax.swing.JFrame {
                 Logger.getLogger(FrmLogovanje.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if ((boolean) toOdgovor.getRezultat()) {
-            FrmPocetna forma = new FrmPocetna();
+        Object[] prijem = (Object[]) toOdgovor.getRezultat();
+        if ((boolean) prijem[0]) {
+            FrmPocetna forma = new FrmPocetna((Korisnik) prijem[1]);
             forma.setVisible(true);
             this.dispose();
         } else {
