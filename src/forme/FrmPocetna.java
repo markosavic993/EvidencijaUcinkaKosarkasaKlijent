@@ -661,21 +661,21 @@ public class FrmPocetna extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         int odluka = JOptionPane.showConfirmDialog(this, "Da li zaista želite da napustite program?", "Izlaz", JOptionPane.YES_NO_OPTION);
         if (odluka == 0) {
-//            toZahtev.setOperacija(Konstante.IZLOGUJ_SE);
-//            toZahtev.setParametar(ulogovaniKorisnik);
-//            KlijentKomunikacija.getInstance().posaljiZahtev(toZahtev);
-//            try {
-//                toOdgovor = KlijentKomunikacija.getInstance().primiOdgovor();
-//            } catch (IOException | ClassNotFoundException ex) {
-//                Logger.getLogger(FrmPocetna.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            if (toOdgovor.getIzuzetak() != null) {
-//                try {
-//                    throw (Exception) toOdgovor.getIzuzetak();
-//                } catch (Exception ex) {
-//                    Logger.getLogger(FrmLogovanje.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
+            toZahtev.setOperacija(Konstante.IZLOGUJ_SE);
+            toZahtev.setParametar(ulogovaniKorisnik);
+            KlijentKomunikacija.getInstance().posaljiZahtev(toZahtev);
+            try {
+                toOdgovor = KlijentKomunikacija.getInstance().primiOdgovor();
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(FrmPocetna.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (toOdgovor.getIzuzetak() != null) {
+                try {
+                    throw (Exception) toOdgovor.getIzuzetak();
+                } catch (Exception ex) {
+                    Logger.getLogger(FrmLogovanje.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             System.exit(0);
         } else {
             return;
