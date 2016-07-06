@@ -64,6 +64,7 @@ public class FrmKosarkasUnos extends javax.swing.JDialog {
         popuniComboZaTimove(k.getTimZaKojiNastupa());
         popuniPolja(k);
         podesiPristupElementima();
+        this.pack();
     }
 
     /**
@@ -235,12 +236,10 @@ public class FrmKosarkasUnos extends javax.swing.JDialog {
                                 .addComponent(jLabel2)
                                 .addComponent(jLabel3))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jtxtIme, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                                    .addComponent(jtxtPrezime)
-                                    .addComponent(jtxtJMBG)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jtxtIme, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                                .addComponent(jtxtPrezime)
+                                .addComponent(jtxtJMBG))
                             .addGap(12, 12, 12)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
@@ -253,10 +252,15 @@ public class FrmKosarkasUnos extends javax.swing.JDialog {
                         .addGap(257, 257, 257)))
                 .addContainerGap(42, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addComponent(jbtnResetuj)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbtnPotvrdi)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(129, 129, 129)
+                        .addComponent(jbtnResetuj)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbtnPotvrdi))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(133, 133, 133)
+                        .addComponent(jLabel1)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

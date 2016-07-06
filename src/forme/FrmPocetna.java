@@ -291,6 +291,11 @@ public class FrmPocetna extends javax.swing.JFrame {
         });
 
         jcomboIgraci.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcomboIgraci.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcomboIgraciActionPerformed(evt);
+            }
+        });
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/forme/slika.jpg"))); // NOI18N
 
@@ -656,21 +661,21 @@ public class FrmPocetna extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         int odluka = JOptionPane.showConfirmDialog(this, "Da li zaista želite da napustite program?", "Izlaz", JOptionPane.YES_NO_OPTION);
         if (odluka == 0) {
-            toZahtev.setOperacija(Konstante.IZLOGUJ_SE);
-            toZahtev.setParametar(ulogovaniKorisnik);
-            KlijentKomunikacija.getInstance().posaljiZahtev(toZahtev);
-            try {
-                toOdgovor = KlijentKomunikacija.getInstance().primiOdgovor();
-            } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(FrmPocetna.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if (toOdgovor.getIzuzetak() != null) {
-                try {
-                    throw (Exception) toOdgovor.getIzuzetak();
-                } catch (Exception ex) {
-                    Logger.getLogger(FrmLogovanje.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+//            toZahtev.setOperacija(Konstante.IZLOGUJ_SE);
+//            toZahtev.setParametar(ulogovaniKorisnik);
+//            KlijentKomunikacija.getInstance().posaljiZahtev(toZahtev);
+//            try {
+//                toOdgovor = KlijentKomunikacija.getInstance().primiOdgovor();
+//            } catch (IOException | ClassNotFoundException ex) {
+//                Logger.getLogger(FrmPocetna.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            if (toOdgovor.getIzuzetak() != null) {
+//                try {
+//                    throw (Exception) toOdgovor.getIzuzetak();
+//                } catch (Exception ex) {
+//                    Logger.getLogger(FrmLogovanje.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
             System.exit(0);
         } else {
             return;
@@ -728,6 +733,10 @@ public class FrmPocetna extends javax.swing.JFrame {
             showPopupMenu(evt);
         }
     }//GEN-LAST:event_formMouseReleased
+
+    private void jcomboIgraciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomboIgraciActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcomboIgraciActionPerformed
 
     /**
      * @param args the command line arguments
@@ -982,6 +991,7 @@ public class FrmPocetna extends javax.swing.JFrame {
                             return;
                         }
                         for (Ucinak ucinak : lista) {
+                            //System.out.println( ucinak.getKosarkas().getPrezime()+" # "+ucinak.getTipUcinka().getNaziv() + ": " + ucinak.getVrednost() + "\n");
                             if (!jedinstvenaListaUcinaka.contains(ucinak)) {
                                 jedinstvenaListaUcinaka.add(ucinak);
                             } else {
