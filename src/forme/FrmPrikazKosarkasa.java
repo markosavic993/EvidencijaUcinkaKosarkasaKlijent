@@ -359,7 +359,7 @@ public class FrmPrikazKosarkasa extends javax.swing.JDialog {
         }
         if (toOdgovor.getIzuzetak() != null) {
             try {
-                throw (Exception) toOdgovor.getIzuzetak();
+                JOptionPane.showMessageDialog(this, "Košarkaš ne može biti obrisan dok god postoje zabeležene utakmice koje je odigrao!", "Greška!", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
                 Logger.getLogger(FrmLogovanje.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import komunikacija.KlijentKomunikacija;
 import transfer.TransferObjekatOdgovor;
@@ -80,7 +81,7 @@ public class TblModelTim extends AbstractTableModel{
         }
         if (toOdgovor.getIzuzetak() != null) {
             try {
-                throw (Exception) toOdgovor.getIzuzetak();
+                JOptionPane.showMessageDialog(null, "Tim ne može biti obrisan dok god ima zabeleženih utakmica u kojima je učestvovao!", "Greška!", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
                 Logger.getLogger(FrmLogovanje.class.getName()).log(Level.SEVERE, null, ex);
             }
