@@ -20,16 +20,12 @@ public class TblModelPrikazUcinaka extends AbstractTableModel{
 
     List<TipUcinka> tipoviUcinaka;
     List<Ucinak> ucinci;
-    List<Kosarkas> kosarkasi = new ArrayList<>();
+    List<Kosarkas> kosarkasi;
 
-    public TblModelPrikazUcinaka(List<TipUcinka> tipoviUcinaka, List<Ucinak> ucinci) {
+    public TblModelPrikazUcinaka(List<TipUcinka> tipoviUcinaka, List<Ucinak> ucinci, List<Kosarkas> kosarkasi) {
         this.tipoviUcinaka = tipoviUcinaka;
         this.ucinci = ucinci;
-        for (Ucinak ucinak : ucinci) {
-            if(!kosarkasi.contains(ucinak.getKosarkas())) {
-                kosarkasi.add(ucinak.getKosarkas());
-            }
-        }
+        this.kosarkasi = kosarkasi;
     }
     
     
@@ -49,7 +45,8 @@ public class TblModelPrikazUcinaka extends AbstractTableModel{
         if(columnIndex == 0) return kosarkasi.get(rowIndex);
         else {
             for (Ucinak ucinak : ucinci) {
-                if(ucinak.getKosarkas().equals(kosarkasi.get(rowIndex)) && ucinak.equals(tipoviUcinaka.get(columnIndex-1))) {
+                if(ucinak.getKosarkas().equals(kosarkasi.get(rowIndex)) && ucinak.getTipUcinka().equals(tipoviUcinaka.get(columnIndex-1))) {
+                    //System.out.println(ucinak.getKosarkas() +":"+ kosarkasi.get(rowIndex) + "**********" +ucinak.getTipUcinka());
                     return ucinak.getVrednost();
                 }
             }

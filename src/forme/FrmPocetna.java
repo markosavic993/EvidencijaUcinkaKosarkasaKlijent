@@ -11,6 +11,7 @@ import domen.Kosarkas;
 import domen.TipUcinka;
 import domen.Ucinak;
 import domen.Utakmica;
+import forme.komponente.TblModelPrikazUcinaka;
 import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
@@ -20,10 +21,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -37,7 +42,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import komunikacija.KlijentKomunikacija;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import transfer.TransferObjekatOdgovor;
 import transfer.TransferObjekatZahtev;
 import util.Konstante;
@@ -52,6 +62,7 @@ public class FrmPocetna extends javax.swing.JFrame {
     TransferObjekatZahtev toZahtev = new TransferObjekatZahtev();
     TransferObjekatOdgovor toOdgovor = new TransferObjekatOdgovor();
     Korisnik ulogovaniKorisnik;
+
     /**
      * Creates new form FrmPocetna
      */
@@ -63,7 +74,7 @@ public class FrmPocetna extends javax.swing.JFrame {
         napuniListuUtakmica();
         jpnlGlavni.setVisible(false);
     }
-    
+
     public FrmPocetna(Korisnik k) {
         initComponents();
         maksimizirajDimenzijeForme();
@@ -107,11 +118,18 @@ public class FrmPocetna extends javax.swing.JFrame {
         jlblDomacinPoeni = new javax.swing.JLabel();
         jlblGostPoeni = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jbtnDodajNoveUcinke = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtblUcinci = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jtxtAreaUcinci = new javax.swing.JTextArea();
-        jbtnDodajNoveUcinke = new javax.swing.JButton();
         jcomboIgraci = new javax.swing.JComboBox();
-        jLabel7 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmiUnosKosarkasa = new javax.swing.JMenuItem();
@@ -244,7 +262,7 @@ public class FrmPocetna extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE))
+                .addComponent(jScrollPane1))
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -277,18 +295,53 @@ public class FrmPocetna extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText(":");
 
-        jtxtAreaUcinci.setColumns(20);
-        jtxtAreaUcinci.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jtxtAreaUcinci.setRows(5);
-        jtxtAreaUcinci.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(51, 0, 255)));
-        jScrollPane3.setViewportView(jtxtAreaUcinci);
-
+        jbtnDodajNoveUcinke.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbtnDodajNoveUcinke.setText("Dodaj nove učinke za ovu utakmicu");
         jbtnDodajNoveUcinke.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnDodajNoveUcinkeActionPerformed(evt);
             }
         });
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/forme/slika.jpg"))); // NOI18N
+
+        jtblUcinci.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jtblUcinci);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(99, 99, 99))
+        );
+
+        jTabbedPane1.addTab("Tabela", jPanel1);
+
+        jtxtAreaUcinci.setColumns(20);
+        jtxtAreaUcinci.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtxtAreaUcinci.setRows(5);
+        jtxtAreaUcinci.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(51, 0, 255)));
+        jScrollPane3.setViewportView(jtxtAreaUcinci);
 
         jcomboIgraci.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcomboIgraci.addActionListener(new java.awt.event.ActionListener() {
@@ -297,51 +350,92 @@ public class FrmPocetna extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/forme/slika.jpg"))); // NOI18N
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 750, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jcomboIgraci, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 366, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jcomboIgraci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane1.addTab("Lista", jPanel2);
+
+        jButton1.setText("Preuzmi Excel fajl");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
+        jLabel8.setText("* NP - nema podataka");
 
         javax.swing.GroupLayout jpnlGlavniLayout = new javax.swing.GroupLayout(jpnlGlavni);
         jpnlGlavni.setLayout(jpnlGlavniLayout);
         jpnlGlavniLayout.setHorizontalGroup(
             jpnlGlavniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlGlavniLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtnDodajNoveUcinke)
+                .addGap(232, 232, 232))
             .addGroup(jpnlGlavniLayout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addGroup(jpnlGlavniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpnlGlavniLayout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jlblDomacin, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
                     .addGroup(jpnlGlavniLayout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jlblGost, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpnlGlavniLayout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jlblDatum, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpnlGlavniLayout.createSequentialGroup()
-                        .addGroup(jpnlGlavniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(jpnlGlavniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlblHala, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jpnlGlavniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jpnlGlavniLayout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(jlblDomacinPoeni, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(jlblGostPoeni, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jcomboIgraci, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addGroup(jpnlGlavniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(77, 77, 77))
-            .addGroup(jpnlGlavniLayout.createSequentialGroup()
-                .addGap(332, 332, 332)
-                .addComponent(jbtnDodajNoveUcinke)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jpnlGlavniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jpnlGlavniLayout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jlblDomacin, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jpnlGlavniLayout.createSequentialGroup()
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jlblGost, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jpnlGlavniLayout.createSequentialGroup()
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jlblDatum, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jpnlGlavniLayout.createSequentialGroup()
+                                        .addGroup(jpnlGlavniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel3))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jpnlGlavniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jlblHala, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jpnlGlavniLayout.createSequentialGroup()
+                                                .addGap(27, 27, 27)
+                                                .addComponent(jlblDomacinPoeni, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(32, 32, 32)
+                                                .addComponent(jlblGostPoeni, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(73, 73, 73)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 755, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jpnlGlavniLayout.setVerticalGroup(
             jpnlGlavniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,13 +472,15 @@ public class FrmPocetna extends javax.swing.JFrame {
                                 .addGap(35, 35, 35)
                                 .addComponent(jLabel5))))
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpnlGlavniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcomboIgraci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel8))
+                .addGap(9, 9, 9)
                 .addComponent(jbtnDodajNoveUcinke)
-                .addGap(43, 43, 43))
+                .addContainerGap())
         );
 
         jMenu1.setText("Unos");
@@ -738,6 +834,58 @@ public class FrmPocetna extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jcomboIgraciActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        XSSFWorkbook wb = new XSSFWorkbook();
+        XSSFSheet ws = wb.createSheet();
+        
+        TreeMap<String, Object[]> data = new TreeMap<>();
+        TblModelPrikazUcinaka dtm = (TblModelPrikazUcinaka) jtblUcinci.getModel();
+        
+        Object[] array = new Object[dtm.getColumnCount()];
+        for (int i = 0; i < dtm.getColumnCount(); i++) {
+            array[i] = dtm.getColumnName(i);
+        }
+        data.put("0", array);
+        
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            Object[] niz = new Object[dtm.getColumnCount()];
+            for (int j = 0; j < dtm.getColumnCount(); j++) {
+                niz[j] = dtm.getValueAt(i, j);
+            }
+            int rb = i+1;
+            data.put(""+rb, niz);
+        }
+        
+        Set<String> ids = data.keySet();
+        XSSFRow row;
+        int rowID = 0;
+        
+        for (String key : ids) {
+            row = ws.createRow(rowID++);
+            
+            
+            Object[] values = data.get(key);
+            int cellID = 0;
+            for (Object o : values) {
+                Cell cell = row.createCell(cellID++);
+                cell.setCellValue(o.toString());
+            }
+            
+        }
+        
+        try {
+            FileOutputStream out = new FileOutputStream(new File("D:/Excel/"+jlistUtakmice.getSelectedValue()+".xlsx"));
+            wb.write(out);
+            out.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmPocetna.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FrmPocetna.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        JOptionPane.showMessageDialog(this, "Excel fajl uspešno sačuvan na vašem kompjuteru!", "Preuzimanje dovršeno", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -775,6 +923,7 @@ public class FrmPocetna extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -782,6 +931,7 @@ public class FrmPocetna extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -795,9 +945,13 @@ public class FrmPocetna extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbtnDodajNoveUcinke;
     private javax.swing.JComboBox jcomboIgraci;
     private javax.swing.JLabel jlblDatum;
@@ -830,6 +984,7 @@ public class FrmPocetna extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmitemPronadjiTim;
     private javax.swing.JPanel jpnlGlavni;
     private javax.swing.JPanel jpnlLevo;
+    private javax.swing.JTable jtblUcinci;
     private javax.swing.JTextArea jtxtAreaUcinci;
     // End of variables declaration//GEN-END:variables
 
@@ -911,6 +1066,7 @@ public class FrmPocetna extends javax.swing.JFrame {
             }
 
             private void napuniListuIgraca(Utakmica izabranaUtakmica) {
+                List<Kosarkas> kosarkasi = new ArrayList<>();
                 DefaultComboBoxModel dlm = new DefaultComboBoxModel();
                 toZahtev.setOperacija(Konstante.VRATI_KOSARKASE_IZ_JEDNOG_TIMA);
                 toZahtev.setParametar(izabranaUtakmica.getDomacin());
@@ -930,6 +1086,7 @@ public class FrmPocetna extends javax.swing.JFrame {
 
                 for (Kosarkas k : (List<Kosarkas>) toOdgovor.getRezultat()) {
                     dlm.addElement(k);
+                    kosarkasi.add(k);
                 }
 
                 toZahtev.setOperacija(Konstante.VRATI_KOSARKASE_IZ_JEDNOG_TIMA);
@@ -950,9 +1107,13 @@ public class FrmPocetna extends javax.swing.JFrame {
 
                 for (Kosarkas k : (List<Kosarkas>) toOdgovor.getRezultat()) {
                     dlm.addElement(k);
+                    kosarkasi.add(k);
                 }
 
                 jcomboIgraci.setModel(dlm);
+
+                TblModelPrikazUcinaka model = new TblModelPrikazUcinaka(vratiTipoveUcinaka(), vratiSveUcinkeSaUtakmice(kosarkasi, izabranaUtakmica), kosarkasi);
+                jtblUcinci.setModel(model);
 
                 jcomboIgraci.addActionListener(new ActionListener() {
 
@@ -1017,6 +1178,75 @@ public class FrmPocetna extends javax.swing.JFrame {
 
     private void showPopupMenu(MouseEvent e) {
         jPopupMenu1.show(this, e.getX(), e.getY());
+    }
+
+    private List<TipUcinka> vratiTipoveUcinaka() {
+        toZahtev.setOperacija(Konstante.VRATI_TIPOVE_UCINAKA);
+        toZahtev.setParametar(null);
+        KlijentKomunikacija.getInstance().posaljiZahtev(toZahtev);
+        try {
+            toOdgovor = KlijentKomunikacija.getInstance().primiOdgovor();
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(FrmDodajUcinak.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (toOdgovor.getIzuzetak() != null) {
+            try {
+                throw (Exception) toOdgovor.getIzuzetak();
+            } catch (Exception ex) {
+                Logger.getLogger(FrmLogovanje.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return (List<TipUcinka>) toOdgovor.getRezultat();
+    }
+
+    private List<Ucinak> vratiSveUcinkeSaUtakmice(List<Kosarkas> kosarkasi, Utakmica u) {
+        List<Ucinak> ucinci = new ArrayList<>();
+        for (Kosarkas kosarkas : kosarkasi) {
+            toZahtev.setOperacija(Konstante.VRATI_UCINKE_ODREDJENOG_IGRACA_NA_UTAKMICI);
+            Object[] niz = new Object[2];
+            niz[0] = kosarkas;
+            niz[1] = u;
+            toZahtev.setParametar(niz);
+            KlijentKomunikacija.getInstance().posaljiZahtev(toZahtev);
+            try {
+                toOdgovor = KlijentKomunikacija.getInstance().primiOdgovor();
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(FrmDodajUcinak.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (toOdgovor.getIzuzetak() != null) {
+                try {
+                    throw (Exception) toOdgovor.getIzuzetak();
+                } catch (Exception ex) {
+                    Logger.getLogger(FrmLogovanje.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            List<Ucinak> lista = (List<Ucinak>) toOdgovor.getRezultat();
+            List<Ucinak> jedinstvenaListaUcinaka = new ArrayList<>();
+            
+            for (Ucinak ucinak : lista) {
+                if (!jedinstvenaListaUcinaka.contains(ucinak)) {
+                    jedinstvenaListaUcinaka.add(ucinak);
+                } else {
+                    for (Ucinak ju : jedinstvenaListaUcinaka) {
+                        if (ju.equals(ucinak)) {
+                            ju.setVrednost(ju.getVrednost() + ucinak.getVrednost());
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            for (Ucinak ucinakIgraca : jedinstvenaListaUcinaka) {
+                ucinci.add(ucinakIgraca);
+            }
+
+        }
+        for (Ucinak uc : ucinci) {
+           // System.out.println(uc.getKosarkas()+":"+uc.getTipUcinka()+":"+uc.getVrednost());
+        }
+        return ucinci;
     }
 
 }
