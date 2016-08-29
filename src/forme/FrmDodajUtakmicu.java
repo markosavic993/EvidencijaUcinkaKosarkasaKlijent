@@ -5,6 +5,7 @@
  */
 package forme;
 
+import domen.Korisnik;
 import domen.Tim;
 import domen.Utakmica;
 import java.awt.Dimension;
@@ -33,6 +34,7 @@ public class FrmDodajUtakmicu extends javax.swing.JDialog {
 
     TransferObjekatZahtev toZahtev = new TransferObjekatZahtev();
     TransferObjekatOdgovor toOdgovor = new TransferObjekatOdgovor();
+    Korisnik k;
 
     /**
      * Creates new form FrmDodajUtakmicu
@@ -43,6 +45,15 @@ public class FrmDodajUtakmicu extends javax.swing.JDialog {
         pozicionirajFormu();
         napuniComboe();
         popuniComboZaDatum();
+    }
+    
+    public FrmDodajUtakmicu(java.awt.Frame parent, boolean modal, Korisnik korisnik) {
+        super(parent, modal);
+        initComponents();
+        pozicionirajFormu();
+        napuniComboe();
+        popuniComboZaDatum();
+        this.k = korisnik;
     }
 
     /**
@@ -192,7 +203,7 @@ public class FrmDodajUtakmicu extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(this, "Utakmica uspešno sačuvana!");
         this.dispose();
 
-        FrmDodajUcinak forma = new FrmDodajUcinak(null, true, u);
+        FrmDodajUcinak forma = new FrmDodajUcinak(null, true, u, k);
         forma.setVisible(true);
     }//GEN-LAST:event_jbtnDodajActionPerformed
 

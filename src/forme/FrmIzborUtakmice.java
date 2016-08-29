@@ -5,6 +5,7 @@
  */
 package forme;
 
+import domen.Korisnik;
 import domen.Utakmica;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -26,9 +27,20 @@ public class FrmIzborUtakmice extends javax.swing.JDialog {
     /**
      * Creates new form FrmIzborUtakmice
      */
+    
+    Korisnik k;
+    
     public FrmIzborUtakmice(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        napuniCombo();
+        pozicionirajFormu();
+    }
+
+    public FrmIzborUtakmice(java.awt.Frame parent, boolean modal, Korisnik k) {
+        super(parent, modal);
+        initComponents();
+        this.k = k;
         napuniCombo();
         pozicionirajFormu();
     }
@@ -93,7 +105,7 @@ public class FrmIzborUtakmice extends javax.swing.JDialog {
 
     private void jbtnPotvrdiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPotvrdiActionPerformed
         Utakmica u = (Utakmica) jcomboUtakmice.getSelectedItem();
-        FrmDodajUcinak forma = new FrmDodajUcinak(null, true, u);
+        FrmDodajUcinak forma = new FrmDodajUcinak(null, true, u, k);
         forma.setVisible(true);
     }//GEN-LAST:event_jbtnPotvrdiActionPerformed
 

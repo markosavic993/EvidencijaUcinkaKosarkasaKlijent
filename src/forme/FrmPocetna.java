@@ -705,7 +705,7 @@ public class FrmPocetna extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiAutorActionPerformed
 
     private void jmiDodajUtakmicuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiDodajUtakmicuActionPerformed
-        FrmDodajUtakmicu forma = new FrmDodajUtakmicu(this, true);
+        FrmDodajUtakmicu forma = new FrmDodajUtakmicu(this, true, ulogovaniKorisnik);
         forma.setVisible(true);
     }//GEN-LAST:event_jmiDodajUtakmicuActionPerformed
 
@@ -734,7 +734,7 @@ public class FrmPocetna extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiIzmenaTimaActionPerformed
 
     private void jbtnDodajNoveUcinkeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDodajNoveUcinkeActionPerformed
-        FrmDodajUcinak forma = new FrmDodajUcinak(this, true, (Utakmica) jlistUtakmice.getSelectedValue());
+        FrmDodajUcinak forma = new FrmDodajUcinak(this, true, (Utakmica) jlistUtakmice.getSelectedValue(), ulogovaniKorisnik);
         forma.setVisible(true);
         jpnlGlavni.setVisible(false);
     }//GEN-LAST:event_jbtnDodajNoveUcinkeActionPerformed
@@ -745,7 +745,7 @@ public class FrmPocetna extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiDodajTipUcinkaActionPerformed
 
     private void jmiDodajUcinakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiDodajUcinakActionPerformed
-        FrmIzborUtakmice forma = new FrmIzborUtakmice(this, true);
+        FrmIzborUtakmice forma = new FrmIzborUtakmice(this, true, ulogovaniKorisnik);
         forma.setVisible(true);
     }//GEN-LAST:event_jmiDodajUcinakActionPerformed
 

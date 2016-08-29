@@ -5,6 +5,7 @@
  */
 package forme;
 
+import domen.Korisnik;
 import domen.Kosarkas;
 import domen.TipUcinka;
 import domen.Ucinak;
@@ -28,6 +29,7 @@ import util.Konstante;
 public class FrmDodajUcinak extends javax.swing.JDialog {
 
     Utakmica u;
+    Korisnik k;
     TransferObjekatZahtev toZahtev = new TransferObjekatZahtev();
     TransferObjekatOdgovor toOdgovor = new TransferObjekatOdgovor();
 
@@ -40,10 +42,11 @@ public class FrmDodajUcinak extends javax.swing.JDialog {
         //napuniComboe();
     }
 
-    public FrmDodajUcinak(java.awt.Frame parent, boolean modal, Utakmica u) {
+    public FrmDodajUcinak(java.awt.Frame parent, boolean modal, Utakmica u, Korisnik k) {
         super(parent, modal);
         initComponents();
         this.u = u;
+        this.k = k;
         napuniComboe();
         napuniTabelu();
         pozicionirajFormu();
@@ -230,10 +233,10 @@ public class FrmDodajUcinak extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDodajActionPerformed
-        Kosarkas k = (Kosarkas) jcomboIgrac.getSelectedItem();
+        Kosarkas ko = (Kosarkas) jcomboIgrac.getSelectedItem();
         TipUcinka t = (TipUcinka) jcomboTip.getSelectedItem();
         int v = (int) jcomboVrednost.getSelectedItem();
-        Ucinak ucinak = new Ucinak(k, u, t, v);
+        Ucinak ucinak = new Ucinak(ko, u, t, v, k);
         TblModelUcinak tmu = (TblModelUcinak) jtblUcinci.getModel();
         tmu.dodajRed(ucinak);
         jbtnSacuvaj.setEnabled(true);
