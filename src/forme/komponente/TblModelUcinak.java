@@ -5,7 +5,7 @@
  */
 package forme.komponente;
 
-import domen.Ucinak;
+import domen.UcinakKosarkasa;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TblModelUcinak extends AbstractTableModel{
     
-    List<Ucinak> listaUcinaka;
+    List<UcinakKosarkasa> listaUcinaka;
 
     public TblModelUcinak() {
         listaUcinaka = new ArrayList<>();
@@ -34,7 +34,7 @@ public class TblModelUcinak extends AbstractTableModel{
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Ucinak u = listaUcinaka.get(rowIndex);
+        UcinakKosarkasa u = listaUcinaka.get(rowIndex);
         
         switch(columnIndex) {
             case 0: return u.getKosarkas().getTimZaKojiNastupa();
@@ -67,7 +67,7 @@ public class TblModelUcinak extends AbstractTableModel{
         fireTableCellUpdated(rowIndex, columnIndex);
     }
     
-    public void dodajRed(Ucinak u) {
+    public void dodajRed(UcinakKosarkasa u) {
         listaUcinaka.add(u);
         fireTableDataChanged();
     }
@@ -82,7 +82,7 @@ public class TblModelUcinak extends AbstractTableModel{
         fireTableDataChanged();
     }
 
-    public List<Ucinak> getListaUcinaka() {
+    public List<UcinakKosarkasa> getListaUcinaka() {
         return listaUcinaka;
     }
     

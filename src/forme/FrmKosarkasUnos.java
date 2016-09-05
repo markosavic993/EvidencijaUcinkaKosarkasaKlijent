@@ -121,7 +121,7 @@ public class FrmKosarkasUnos extends javax.swing.JDialog {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Unos kosarkasa");
+        jLabel1.setText("Unos košarkaša");
 
         jLabel2.setText("Ime:");
 

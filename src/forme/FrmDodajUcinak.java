@@ -8,7 +8,7 @@ package forme;
 import domen.Korisnik;
 import domen.Kosarkas;
 import domen.TipUcinka;
-import domen.Ucinak;
+import domen.UcinakKosarkasa;
 import domen.Utakmica;
 import forme.komponente.TblModelUcinak;
 import java.awt.Dimension;
@@ -236,7 +236,7 @@ public class FrmDodajUcinak extends javax.swing.JDialog {
         Kosarkas ko = (Kosarkas) jcomboIgrac.getSelectedItem();
         TipUcinka t = (TipUcinka) jcomboTip.getSelectedItem();
         int v = (int) jcomboVrednost.getSelectedItem();
-        Ucinak ucinak = new Ucinak(ko, u, t, v, k);
+        UcinakKosarkasa ucinak = new UcinakKosarkasa(ko, u, t, v, k);
         TblModelUcinak tmu = (TblModelUcinak) jtblUcinci.getModel();
         tmu.dodajRed(ucinak);
         jbtnSacuvaj.setEnabled(true);
@@ -263,7 +263,7 @@ public class FrmDodajUcinak extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtnObrisiSveActionPerformed
 
     private void jbtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajActionPerformed
-        List<Ucinak> lista = ((TblModelUcinak) jtblUcinci.getModel()).getListaUcinaka();
+        List<UcinakKosarkasa> lista = ((TblModelUcinak) jtblUcinci.getModel()).getListaUcinaka();
 
         toZahtev.setOperacija(Konstante.SACUVAJ_LISTU_UCINAKA);
         toZahtev.setParametar(lista);

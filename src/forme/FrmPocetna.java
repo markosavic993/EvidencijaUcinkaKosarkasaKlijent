@@ -9,9 +9,10 @@ import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import domen.Korisnik;
 import domen.Kosarkas;
 import domen.TipUcinka;
-import domen.Ucinak;
+import domen.UcinakKosarkasa;
 import domen.Utakmica;
 import forme.komponente.TblModelPrikazUcinaka;
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
@@ -837,44 +838,44 @@ public class FrmPocetna extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         XSSFWorkbook wb = new XSSFWorkbook();
         XSSFSheet ws = wb.createSheet();
-        
+
         TreeMap<String, Object[]> data = new TreeMap<>();
         TblModelPrikazUcinaka dtm = (TblModelPrikazUcinaka) jtblUcinci.getModel();
-        
+
         Object[] array = new Object[dtm.getColumnCount()];
         for (int i = 0; i < dtm.getColumnCount(); i++) {
             array[i] = dtm.getColumnName(i);
         }
         data.put("0", array);
-        
+
         for (int i = 0; i < dtm.getRowCount(); i++) {
             Object[] niz = new Object[dtm.getColumnCount()];
             for (int j = 0; j < dtm.getColumnCount(); j++) {
                 niz[j] = dtm.getValueAt(i, j);
             }
-            int rb = i+1;
-            data.put(""+rb, niz);
+            int rb = i + 1;
+            data.put("" + rb, niz);
         }
-        
+
         Set<String> ids = data.keySet();
         XSSFRow row;
         int rowID = 0;
-        
+
         for (String key : ids) {
             row = ws.createRow(rowID++);
-            
-            
+
             Object[] values = data.get(key);
             int cellID = 0;
             for (Object o : values) {
                 Cell cell = row.createCell(cellID++);
                 cell.setCellValue(o.toString());
             }
-            
+
         }
-        
+
         try {
-            FileOutputStream out = new FileOutputStream(new File("D:/Excel/"+jlistUtakmice.getSelectedValue()+".xlsx"));
+            FileOutputStream out = new FileOutputStream(new File("../Export/" + ((Utakmica) jlistUtakmice.getSelectedValue()).getDomacin().getNaziv()
+                    + ((Utakmica) jlistUtakmice.getSelectedValue()).getGost().getNaziv() + ((Utakmica) jlistUtakmice.getSelectedValue()).getDatumOdigravanja().toString() + ".xlsx"));
             wb.write(out);
             out.close();
         } catch (FileNotFoundException ex) {
@@ -882,8 +883,15 @@ public class FrmPocetna extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(FrmPocetna.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         JOptionPane.showMessageDialog(this, "Excel fajl uspešno sačuvan na vašem kompjuteru!", "Preuzimanje dovršeno", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            Runtime.getRuntime().exec("cmd.exe /C start ../Export/" + ((Utakmica) jlistUtakmice.getSelectedValue()).getDomacin().getNaziv()
+                    + ((Utakmica) jlistUtakmice.getSelectedValue()).getGost().getNaziv() + ((Utakmica) jlistUtakmice.getSelectedValue()).getDatumOdigravanja().toString() + ".xlsx");
+            System.out.println("Otvorio");
+        } catch (IOException ex) {
+            Logger.getLogger(FrmPocetna.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -1145,18 +1153,18 @@ public class FrmPocetna extends javax.swing.JFrame {
                             }
                         }
 
-                        List<Ucinak> lista = (List<Ucinak>) toOdgovor.getRezultat();
-                        List<Ucinak> jedinstvenaListaUcinaka = new ArrayList<>();
+                        List<UcinakKosarkasa> lista = (List<UcinakKosarkasa>) toOdgovor.getRezultat();
+                        List<UcinakKosarkasa> jedinstvenaListaUcinaka = new ArrayList<>();
                         if (lista == null || lista.isEmpty()) {
                             jtxtAreaUcinci.setText("\n  Nema zabeleženih učinaka za ovog košarkaša!");
                             return;
                         }
-                        for (Ucinak ucinak : lista) {
+                        for (UcinakKosarkasa ucinak : lista) {
                             //System.out.println( ucinak.getKosarkas().getPrezime()+" # "+ucinak.getTipUcinka().getNaziv() + ": " + ucinak.getVrednost() + "\n");
                             if (!jedinstvenaListaUcinaka.contains(ucinak)) {
                                 jedinstvenaListaUcinaka.add(ucinak);
                             } else {
-                                for (Ucinak ju : jedinstvenaListaUcinaka) {
+                                for (UcinakKosarkasa ju : jedinstvenaListaUcinaka) {
                                     if (ju.equals(ucinak)) {
                                         ju.setVrednost(ju.getVrednost() + ucinak.getVrednost());
                                         break;
@@ -1165,7 +1173,7 @@ public class FrmPocetna extends javax.swing.JFrame {
                             }
                         }
                         jtxtAreaUcinci.append("\n");
-                        for (Ucinak ucinak : jedinstvenaListaUcinaka) {
+                        for (UcinakKosarkasa ucinak : jedinstvenaListaUcinaka) {
                             jtxtAreaUcinci.append(" " + ucinak.getTipUcinka().getNaziv() + ": " + ucinak.getVrednost() + "\n");
                         }
                     }
@@ -1200,8 +1208,8 @@ public class FrmPocetna extends javax.swing.JFrame {
         return (List<TipUcinka>) toOdgovor.getRezultat();
     }
 
-    private List<Ucinak> vratiSveUcinkeSaUtakmice(List<Kosarkas> kosarkasi, Utakmica u) {
-        List<Ucinak> ucinci = new ArrayList<>();
+    private List<UcinakKosarkasa> vratiSveUcinkeSaUtakmice(List<Kosarkas> kosarkasi, Utakmica u) {
+        List<UcinakKosarkasa> ucinci = new ArrayList<>();
         for (Kosarkas kosarkas : kosarkasi) {
             toZahtev.setOperacija(Konstante.VRATI_UCINKE_ODREDJENOG_IGRACA_NA_UTAKMICI);
             Object[] niz = new Object[2];
@@ -1222,14 +1230,14 @@ public class FrmPocetna extends javax.swing.JFrame {
                 }
             }
 
-            List<Ucinak> lista = (List<Ucinak>) toOdgovor.getRezultat();
-            List<Ucinak> jedinstvenaListaUcinaka = new ArrayList<>();
-            
-            for (Ucinak ucinak : lista) {
+            List<UcinakKosarkasa> lista = (List<UcinakKosarkasa>) toOdgovor.getRezultat();
+            List<UcinakKosarkasa> jedinstvenaListaUcinaka = new ArrayList<>();
+
+            for (UcinakKosarkasa ucinak : lista) {
                 if (!jedinstvenaListaUcinaka.contains(ucinak)) {
                     jedinstvenaListaUcinaka.add(ucinak);
                 } else {
-                    for (Ucinak ju : jedinstvenaListaUcinaka) {
+                    for (UcinakKosarkasa ju : jedinstvenaListaUcinaka) {
                         if (ju.equals(ucinak)) {
                             ju.setVrednost(ju.getVrednost() + ucinak.getVrednost());
                             break;
@@ -1237,14 +1245,14 @@ public class FrmPocetna extends javax.swing.JFrame {
                     }
                 }
             }
-            
-            for (Ucinak ucinakIgraca : jedinstvenaListaUcinaka) {
+
+            for (UcinakKosarkasa ucinakIgraca : jedinstvenaListaUcinaka) {
                 ucinci.add(ucinakIgraca);
             }
 
         }
-        for (Ucinak uc : ucinci) {
-           // System.out.println(uc.getKosarkas()+":"+uc.getTipUcinka()+":"+uc.getVrednost());
+        for (UcinakKosarkasa uc : ucinci) {
+            // System.out.println(uc.getKosarkas()+":"+uc.getTipUcinka()+":"+uc.getVrednost());
         }
         return ucinci;
     }
